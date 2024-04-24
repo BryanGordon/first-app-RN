@@ -1,21 +1,29 @@
-import Colors from "@/constants/Colors"
+import Colors from "../constants/Colors"
 
-import { View, Text, Image, StyleSheet } from "react-native"
+import { View, Text, Image, StyleSheet, Pressable } from "react-native"
+import { Link } from "expo-router"
 import { type Product } from "../types"
 
 interface ProductListProps {
   product: Product
 }
 
-const defaultPizzaImage = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
+export const defaultPizzaImage = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
 export const ProductsListItem = ({ product }: ProductListProps) => {
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: product.image || defaultPizzaImage }} style={styles.image} />
-      <Text style={styles.title}>{product.name}</Text>
-      <Text style={styles.price}>${product.price}</Text>
-    </View>
+    <Link  href={`/menu/${product.id}`} asChild>
+      <Pressable style={styles.container}>
+        <Image 
+        source={{ uri: product.image || defaultPizzaImage }} 
+        style={styles.image} 
+        resizeMode='contain'
+        />
+        <Text style={styles.title}>{product.name}</Text>
+        <Text style={styles.price}>${product.price}</Text>
+
+      </Pressable>
+    </Link>
   )
 }
 
@@ -23,7 +31,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     padding: 10,
-    borderRadius: 20
+    borderRadius: 20,
+    flex: 1,
+    maxWidth: '50%'
   },
   title: {
     fontSize: 18,
